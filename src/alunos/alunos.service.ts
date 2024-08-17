@@ -1,26 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
-import { UpdateAlunoDto } from './dto/update-aluno.dto';
+import { Aluno } from './entities/aluno.entity';
+import { AlunosRepository } from './alunos.repository';
 
 @Injectable()
 export class AlunosService {
+  constructor(private readonly alunosRepository: AlunosRepository) {}
+
   create(createAlunoDto: CreateAlunoDto) {
-    return 'This action adds a new aluno';
-  }
+    const { nome, endereco, telefone, email } = createAlunoDto;
+    const aluno = new Aluno(nome, endereco, telefone, email);
 
-  findAll() {
-    return `This action returns all alunos`;
-  }
+    // verificar se tem outro aluno com o mesmo email
+    // pega lista de alunos, verifica se tem algum com o memso email
+    // se tiver, lançar exceção
 
-  findOne(id: number) {
-    return `This action returns a #${id} aluno`;
-  }
-
-  update(id: number, updateAlunoDto: UpdateAlunoDto) {
-    return `This action updates a #${id} aluno`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} aluno`;
+    this.alunosRepository.salvar(aluno);
   }
 }
