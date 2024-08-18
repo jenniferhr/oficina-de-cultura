@@ -8,7 +8,6 @@ export class AlunosController {
 
   @Post()
   cadastrar(@Body() createAlunoDto: CreateAlunoDto) {
-    console.log('controller', createAlunoDto);
     return this.alunosService.create(createAlunoDto);
   }
 }
