@@ -31,6 +31,56 @@ describe('AlunosService', () => {
     expect(service).toBeDefined();
   });
 
+  it('deve criar um novo aluno quando o email passado não existe', () => {
+    const createAlunoDto = {
+      nome: 'Pedro Silva',
+      endereco: 'Rua do Pedro',
+      telefone: '11984756493',
+      email: 'pedro@gmail.com',
+      anoNascimento: 2001,
+    };
+
+    const alunoExistente = {
+      id: randomUUID(),
+      nome: 'Maria Silva',
+      endereco: 'Rua do Queijo, nº 10',
+      telefone: '75989234245',
+      email: 'maria@email.com',
+      cursos: [],
+    } as Aluno;
+
+    const alunoNovoSalvo = {
+      id: randomUUID(),
+      nome: createAlunoDto.nome,
+      endereco: createAlunoDto.endereco,
+      telefone: createAlunoDto.telefone,
+      email: createAlunoDto.email,
+      cursos: [],
+    };
+
+    jest.spyOn(repository, 'listarTodos').mockReturnValue([alunoExistente]);
+    jest.spyOn(repository, 'salvar').mockReturnValue(alunoNovoSalvo);
+
+    let resposta;
+
+    try {
+      resposta = service.create(createAlunoDto);
+    } catch (e) {
+      throw e;
+    }
+
+    expect(resposta).toEqual(alunoNovoSalvo);
+    expect(repository.listarTodos).toHaveBeenCalled();
+    expect(repository.salvar).toHaveBeenCalledWith(
+      expect.objectContaining({
+        nome: createAlunoDto.nome,
+        endereco: createAlunoDto.endereco,
+        telefone: createAlunoDto.telefone,
+        email: createAlunoDto.email,
+      }),
+    );
+  });
+
   it('deve lançar exceção de conflito caso tente cadastrar com email que já existe', () => {
     const createAlunoDto = {
       nome: 'Pedro Silva',
@@ -52,5 +102,6 @@ describe('AlunosService', () => {
     jest.spyOn(repository, 'listarTodos').mockReturnValue([alunoExistente]);
 
     expect(() => service.create(createAlunoDto)).toThrow(ConflictException);
+    expect(repository.listarTodos).toHaveBeenCalled();
   });
 });
