@@ -9,11 +9,7 @@ export class AlunosService {
 
   create(createAlunoDto: CreateAlunoDto) {
     const { nome, endereco, telefone, email } = createAlunoDto;
-    const aluno = new Aluno(nome, endereco, telefone, email);
 
-    // verificar se tem outro aluno com o mesmo email
-    // pega lista de alunos, verifica se tem algum com o mesmo email
-    // se tiver, lançar exceção
     const alunosExistentes = this.alunosRepository.listarTodos();
 
     const alunoJaExiste = alunosExistentes.filter(
@@ -24,6 +20,8 @@ export class AlunosService {
         'Um aluno com esse email já está cadastrado.',
       );
     }
+
+    const aluno = new Aluno(nome, endereco, telefone, email);
 
     this.alunosRepository.salvar(aluno);
   }
