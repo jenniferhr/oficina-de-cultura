@@ -5,9 +5,10 @@ import { Aluno } from './entities/aluno.entity';
 export class AlunosRepository {
   private readonly alunos: Aluno[] = [];
 
-  salvar(aluno: Aluno): void {
+  salvar(aluno: Aluno): Aluno {
     this.alunos.push(aluno);
     console.log(`salvando aluno ${aluno.nome}`);
+    return aluno;
   }
 
   listarTodos(): Aluno[] {

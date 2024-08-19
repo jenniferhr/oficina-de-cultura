@@ -23,6 +23,6 @@ export class AlunosService {
 
     const aluno = new Aluno(nome, endereco, telefone, email);
 
-    this.alunosRepository.salvar(aluno);
+    return this.alunosRepository.salvar(aluno);
   }
 }
