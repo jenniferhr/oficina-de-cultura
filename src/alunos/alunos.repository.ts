@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Aluno } from './entities/aluno.entity';
+import { Aluno } from './domain/aluno';
 
 @Injectable()
 export class AlunosRepository {

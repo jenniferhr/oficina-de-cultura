@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AlunosService } from './alunos.service';
-import { AlunosRepository } from './alunos.repository';
+import { AlunosRepository } from '../alunos.repository';
 import { randomUUID } from 'crypto';
-import { Aluno } from './entities/aluno.entity';
 import { ConflictException } from '@nestjs/common';
+import { Aluno } from '../domain/aluno';
 
 describe('AlunosService', () => {
   let service: AlunosService;

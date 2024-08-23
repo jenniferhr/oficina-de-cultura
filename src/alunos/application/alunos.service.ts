@@ -1,13 +1,13 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { CreateAlunoDto } from './dto/create-aluno.dto';
-import { Aluno } from './entities/aluno.entity';
-import { AlunosRepository } from './alunos.repository';
+import { AlunosRepository } from '../alunos.repository';
+import { Aluno } from '../domain/aluno';
+import { CreateAlunoCommand } from './commands/create-aluno-command';
 
 @Injectable()
 export class AlunosService {
   constructor(private readonly alunosRepository: AlunosRepository) {}
 
-  create(createAlunoDto: CreateAlunoDto) {
+  create(createAlunoDto: CreateAlunoCommand) {
     const { nome, endereco, telefone, email } = createAlunoDto;
 
     const alunosExistentes = this.alunosRepository.listarTodos();

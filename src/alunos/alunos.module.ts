@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AlunosService } from './alunos.service';
-import { AlunosController } from './alunos.controller';
+import { AlunosService } from './application/alunos.service';
+import { AlunosController } from './presenter/http/alunos.controller';
 import { AlunosRepository } from './alunos.repository';
 
 @Module({
