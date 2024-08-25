@@ -20,4 +20,13 @@ export class InMemoryCursosRepository implements CursosRepository {
     const entities = Array.from(this.cursos.values());
     return entities.map((item) => CursoMapper.paraDominio(item));
   }
+
+  async buscarPorTitulo(titulo: string): Promise<Curso> {
+    const entities = Array.from(this.cursos.values());
+    const cursoEncontrado = entities.find((item) => item.titulo === titulo);
+    if (!cursoEncontrado) {
+      return null;
+    }
+    return CursoMapper.paraDominio(cursoEncontrado);
+  }
 }
