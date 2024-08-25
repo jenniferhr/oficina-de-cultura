@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AlunosController } from './alunos.controller';
 import { AlunosService } from '../../application/alunos.service';
-import { AlunosRepository } from '../../alunos.repository';
+import { AlunosRepository } from 'src/alunos/application/ports/alunos.repository';
 
 describe('AlunosController', () => {
   let controller: AlunosController;
@@ -16,6 +16,7 @@ describe('AlunosController', () => {
           useValue: {
             salvar: jest.fn(),
             listarTodos: jest.fn(),
+            buscarPorEmail: jest.fn(),
           },
         },
       ],

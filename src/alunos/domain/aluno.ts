@@ -1,19 +1,10 @@
-import { randomUUID } from 'crypto';
-
 export class Aluno {
-  id: string;
-  nome: string;
-  endereco: string;
-  telefone: string;
-  email: string;
-  cursos: string[];
-
-  constructor(nome: string, endereco: string, telefone: string, email: string) {
-    this.id = randomUUID();
-    this.nome = nome;
-    this.endereco = endereco;
-    this.telefone = telefone;
-    this.email = email;
-    this.cursos = [];
-  }
+  constructor(
+    public id: string,
+    public nome: string,
+    public endereco: string,
+    public telefone: string,
+    public email: string,
+    public cursos: string[],
+  ) {}
 }

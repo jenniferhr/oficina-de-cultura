@@ -1,28 +1,36 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { AlunosRepository } from '../alunos.repository';
-import { Aluno } from '../domain/aluno';
 import { CreateAlunoCommand } from './commands/create-aluno-command';
+import { AlunoFactory } from '../domain/factories/aluno-factory';
+import { AlunosRepository } from './ports/alunos.repository';
 
 @Injectable()
 export class AlunosService {
-  constructor(private readonly alunosRepository: AlunosRepository) {}
+  constructor(
+    private readonly alunosRepository: AlunosRepository,
+    private readonly alunoFactory: AlunoFactory,
+  ) {}
 
-  create(createAlunoDto: CreateAlunoCommand) {
-    const { nome, endereco, telefone, email } = createAlunoDto;
+  criar(createAlunoCommand: CreateAlunoCommand) {
+    const { nome, endereco, telefone, email } = createAlunoCommand;
 
-    const alunosExistentes = this.alunosRepository.listarTodos();
+    this.validarSeJaExiste(email);
 
-    const alunoJaExiste = alunosExistentes.filter(
-      (aluno) => aluno.email === email,
-    );
-    if (alunoJaExiste.length) {
+    const novoAluno = this.alunoFactory.criar(nome, endereco, telefone, email);
+
+    return this.alunosRepository.salvar(novoAluno);
+  }
+
+  private validarSeJaExiste(email: string) {
+    const alunoJaExiste = this.alunosRepository.buscarPorEmail(email);
+
+    if (alunoJaExiste) {
       throw new ConflictException(
         'Um aluno com esse email já está cadastrado.',
       );
     }
+  }
 
-    const aluno = new Aluno(nome, endereco, telefone, email);
-
-    return this.alunosRepository.salvar(aluno);
+  listar() {
+    return this.alunosRepository.listarTodos();
   }
 }

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AlunosService } from './alunos.service';
-import { AlunosRepository } from '../alunos.repository';
 import { randomUUID } from 'crypto';
 import { ConflictException } from '@nestjs/common';
 import { Aluno } from '../domain/aluno';
+import { AlunosRepository } from './ports/alunos.repository';
 
 describe('AlunosService', () => {
   let service: AlunosService;
@@ -18,6 +18,7 @@ describe('AlunosService', () => {
           useValue: {
             salvar: jest.fn(),
             listarTodos: jest.fn(),
+            buscarPorEmail: jest.fn(),
           },
         },
       ],
@@ -40,15 +41,6 @@ describe('AlunosService', () => {
       anoNascimento: 2001,
     };
 
-    const alunoExistente = {
-      id: randomUUID(),
-      nome: 'Maria Silva',
-      endereco: 'Rua do Queijo, nº 10',
-      telefone: '75989234245',
-      email: 'maria@email.com',
-      cursos: [],
-    } as Aluno;
-
     const alunoNovoSalvo = {
       id: randomUUID(),
       nome: createAlunoDto.nome,
@@ -56,21 +48,21 @@ describe('AlunosService', () => {
       telefone: createAlunoDto.telefone,
       email: createAlunoDto.email,
       cursos: [],
-    };
+    } as any as Promise<Aluno>;
 
-    jest.spyOn(repository, 'listarTodos').mockReturnValue([alunoExistente]);
+    jest.spyOn(repository, 'buscarPorEmail').mockReturnValue(undefined);
     jest.spyOn(repository, 'salvar').mockReturnValue(alunoNovoSalvo);
 
     let resposta;
 
     try {
-      resposta = service.create(createAlunoDto);
+      resposta = service.criar(createAlunoDto);
     } catch (e) {
       throw e;
     }
 
     expect(resposta).toEqual(alunoNovoSalvo);
-    expect(repository.listarTodos).toHaveBeenCalled();
+    expect(repository.buscarPorEmail).toHaveBeenCalled();
     expect(repository.salvar).toHaveBeenCalledWith(
       expect.objectContaining({
         nome: createAlunoDto.nome,
@@ -97,11 +89,11 @@ describe('AlunosService', () => {
       telefone: '75988456354',
       email: 'pedro@gmail.com',
       cursos: [],
-    } as Aluno;
+    } as any as Promise<Aluno>;
 
-    jest.spyOn(repository, 'listarTodos').mockReturnValue([alunoExistente]);
+    jest.spyOn(repository, 'buscarPorEmail').mockReturnValue(alunoExistente);
 
-    expect(() => service.create(createAlunoDto)).toThrow(ConflictException);
-    expect(repository.listarTodos).toHaveBeenCalled();
+    expect(() => service.criar(createAlunoDto)).toThrow(ConflictException);
+    expect(repository.buscarPorEmail).toHaveBeenCalled();
   });
 });

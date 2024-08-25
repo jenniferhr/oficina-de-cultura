@@ -1,7 +1,7 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AlunosService } from '../../application/alunos.service';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
-import { CreateAlunoCommand } from 'src/alunos/application/commands/create-aluno-command';
+import { CreateAlunoCommand } from '../../application/commands/create-aluno-command';
 
 @Controller('alunos')
 export class AlunosController {
@@ -9,7 +9,7 @@ export class AlunosController {
 
   @Post()
   cadastrar(@Body() createAlunoDto: CreateAlunoDto) {
-    return this.alunosService.create(
+    return this.alunosService.criar(
       new CreateAlunoCommand(
         createAlunoDto.nome,
         createAlunoDto.endereco,
@@ -18,5 +18,10 @@ export class AlunosController {
         createAlunoDto.anoNascimento,
       ),
     );
+  }
+
+  @Get()
+  listar() {
+    return this.alunosService.listar();
   }
 }
