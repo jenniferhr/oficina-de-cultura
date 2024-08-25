@@ -24,7 +24,7 @@ export class AppModule {
         ),
         CursosModule.comInfraestrutura(
           CursoInfrastructureModule.use(options.driver),
-        ), //TODO: colocar igual ao alunosmodule em cima
+        ),
       ],
     };
   }
