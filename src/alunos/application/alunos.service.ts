@@ -10,18 +10,18 @@ export class AlunosService {
     private readonly alunoFactory: AlunoFactory,
   ) {}
 
-  criar(createAlunoCommand: CreateAlunoCommand) {
+  async criar(createAlunoCommand: CreateAlunoCommand) {
     const { nome, endereco, telefone, email } = createAlunoCommand;
 
-    this.validarSeJaExiste(email);
+    await this.validarSeJaExiste(email);
 
     const novoAluno = this.alunoFactory.criar(nome, endereco, telefone, email);
 
-    return this.alunosRepository.salvar(novoAluno);
+    return await this.alunosRepository.salvar(novoAluno);
   }
 
-  private validarSeJaExiste(email: string) {
-    const alunoJaExiste = this.alunosRepository.buscarPorEmail(email);
+  private async validarSeJaExiste(email: string) {
+    const alunoJaExiste = await this.alunosRepository.buscarPorEmail(email);
 
     if (alunoJaExiste) {
       throw new ConflictException(
@@ -30,7 +30,7 @@ export class AlunosService {
     }
   }
 
-  listar() {
-    return this.alunosRepository.listarTodos();
+  async listar() {
+    return await this.alunosRepository.listarTodos();
   }
 }

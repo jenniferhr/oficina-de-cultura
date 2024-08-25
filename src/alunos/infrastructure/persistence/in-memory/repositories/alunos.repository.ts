@@ -9,7 +9,7 @@ export class InMemoryAlunosRepository implements AlunosRepository {
   private readonly alunos = new Map<string, AlunoEntity>();
 
   async salvar(aluno: Aluno): Promise<Aluno> {
-    console.log(`salvando aluno ${aluno.nome}`);
+    console.log(`Salvando aluno ${aluno.nome}`);
     const persistenceModel = AlunoMapper.paraPersistencia(aluno);
     this.alunos.set(persistenceModel.id, persistenceModel);
     const newEntity = this.alunos.get(persistenceModel.id);

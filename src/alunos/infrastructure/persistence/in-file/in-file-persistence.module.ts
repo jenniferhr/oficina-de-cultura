@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AlunosRepository } from '../../../application/ports/alunos.repository';
-import { InFileAlunosRepository } from './repositories/aluno.repository';
+import { InFileAlunosRepository } from './repositories/alunos.repository';
 
 @Module({
   imports: [],
