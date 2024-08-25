@@ -6,7 +6,7 @@ import { Curso } from '../curso';
 export class CursosFactory {
   criar(titulo: string, descricao: string) {
     const cursoId = randomUUID();
-    const cursoProfessores = [];
+    const cursoProfessores = ['Jack', 'Jô'];
     const cursoAlunos = [];
     return new Curso(cursoId, titulo, descricao, cursoProfessores, cursoAlunos);
   }

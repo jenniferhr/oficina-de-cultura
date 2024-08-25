@@ -20,7 +20,7 @@ export class AlunosService {
     return await this.alunosRepository.salvar(novoAluno);
   }
 
-  private async validarSeJaExiste(email: string) {
+  async validarSeJaExiste(email: string) {
     const alunoJaExiste = await this.alunosRepository.buscarPorEmail(email);
 
     if (alunoJaExiste) {
