@@ -5,10 +5,11 @@ import { AlunosModule } from './alunos/application/alunos.module';
 import { CoreModule } from './alunos/core/core.module';
 import { ApplicationBootstrapOptions } from './alunos/common/interfaces/application-bootstrap-options.interface';
 import { AlunoInfrastructureModule } from './alunos/infrastructure/aluno-infrastructure.module';
-import { CursosModule } from './cursos/cursos.module';
+import { CursosModule } from './cursos/application/cursos.module';
+import { CursoInfrastructureModule } from './cursos/infrastructure/curso-infrastructure.module';
 
 @Module({
-  imports: [CoreModule, CursosModule],
+  imports: [CoreModule],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -21,6 +22,9 @@ export class AppModule {
         AlunosModule.comInfraestrutura(
           AlunoInfrastructureModule.use(options.driver),
         ),
+        CursosModule.comInfraestrutura(
+          CursoInfrastructureModule.use(options.driver),
+        ), //TODO: colocar igual ao alunosmodule em cima
       ],
     };
   }
