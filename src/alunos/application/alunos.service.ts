@@ -13,21 +13,21 @@ export class AlunosService {
   async criar(createAlunoCommand: CreateAlunoCommand) {
     const { nome, endereco, telefone, email } = createAlunoCommand;
 
-    await this.validarSeJaExiste(email);
-
-    const novoAluno = this.alunoFactory.criar(nome, endereco, telefone, email);
-
-    return await this.alunosRepository.salvar(novoAluno);
-  }
-
-  async validarSeJaExiste(email: string) {
-    const alunoJaExiste = await this.alunosRepository.buscarPorEmail(email);
+    const alunoJaExiste = await this.buscarPorEmail(email);
 
     if (alunoJaExiste) {
       throw new ConflictException(
         'Um aluno com esse email já está cadastrado.',
       );
     }
+
+    const novoAluno = this.alunoFactory.criar(nome, endereco, telefone, email);
+
+    return await this.alunosRepository.salvar(novoAluno);
+  }
+
+  async buscarPorEmail(email: string) {
+    return await this.alunosRepository.buscarPorEmail(email);
   }
 
   async listar() {
