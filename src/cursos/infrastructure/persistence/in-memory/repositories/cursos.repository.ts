@@ -29,4 +29,6 @@ export class InMemoryCursosRepository implements CursosRepository {
     }
     return CursoMapper.paraDominio(cursoEncontrado);
   }
+
+  // async matricularAluno(aluno: Aluno, curso: Curso): Promise<Curso> {}
 }

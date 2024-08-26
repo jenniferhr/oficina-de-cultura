@@ -3,6 +3,7 @@ import { AlunosRepository } from '../../../../application/ports/alunos.repositor
 import { AlunoEntity } from '../entities/aluno.entity';
 import { Aluno } from '../../../../domain/aluno';
 import { AlunoMapper } from '../mappers/aluno.mapper';
+import { Curso } from 'src/cursos/domain/curso';
 
 @Injectable()
 export class InMemoryAlunosRepository implements AlunosRepository {
@@ -28,6 +29,23 @@ export class InMemoryAlunosRepository implements AlunosRepository {
       return null;
     }
     return AlunoMapper.paraDominio(alunoEncontrado);
+  }
+
+  async matricularEmCurso(aluno: Aluno, curso: Curso): Promise<Aluno> {
+    const alunoPersistido = this.alunos.get(aluno.id);
+
+    if (!alunoPersistido) {
+      throw new Error(`Aluno com ID ${aluno.id} não encontrado.`);
+    }
+
+    // Adicionar o curso à lista de cursos da entidade persistida
+    alunoPersistido.cursos.push(curso);
+
+    // Atualizar o Map com a entidade de aluno modificada
+    this.alunos.set(alunoPersistido.id, alunoPersistido);
+
+    // Retornar o aluno atualizado no formato de domínio
+    return AlunoMapper.paraDominio(alunoPersistido);
   }
 }
 

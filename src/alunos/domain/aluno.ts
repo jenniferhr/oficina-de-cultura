@@ -1,3 +1,5 @@
+import { Curso } from 'src/cursos/domain/curso';
+
 export class Aluno {
   constructor(
     public id: string,
@@ -5,6 +7,6 @@ export class Aluno {
     public endereco: string,
     public telefone: string,
     public email: string,
-    public cursos: string[],
+    public cursos: Curso[],
   ) {}
 }
