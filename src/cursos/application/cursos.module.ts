@@ -14,8 +14,9 @@ import { InMemoryCursosRepository } from '../infrastructure/persistence/in-memor
       provide: CursosRepository,
       useClass: InMemoryCursosRepository,
     },
+    InMemoryCursosRepository,
   ],
-  exports: [CursosService],
+  exports: [CursosService, InMemoryCursosRepository],
 })
 export class CursosModule {
   // Aqui criamos um método estático que nos permite escolher qual módulo de persistência queremos usar.

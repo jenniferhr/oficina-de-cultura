@@ -3,10 +3,19 @@ import { AlunosService } from './alunos.service';
 import { AlunosController } from '../presenter/http/alunos.controller';
 import { AlunoFactory } from '../domain/factories/aluno-factory';
 import { CursosModule } from 'src/cursos/application/cursos.module';
+import { AlunosRepository } from './ports/alunos.repository';
+import { InMemoryAlunosRepository } from '../infrastructure/persistence/in-memory/repositories/alunos.repository';
 
 @Module({
   controllers: [AlunosController],
-  providers: [AlunosService, AlunoFactory],
+  providers: [
+    AlunosService,
+    AlunoFactory,
+    {
+      provide: AlunosRepository,
+      useClass: InMemoryAlunosRepository,
+    },
+  ],
   imports: [CursosModule],
 })
 export class AlunosModule {

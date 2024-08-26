@@ -2,6 +2,8 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CursosRepository } from './ports/cursos.repository';
 import { CreateCursoCommand } from './commands/create-curso-command';
 import { CursosFactory } from '../domain/factories/cursos-factory';
+import { Aluno } from 'src/alunos/domain/aluno';
+import { Curso } from '../domain/curso';
 
 @Injectable()
 export class CursosService {
@@ -29,5 +31,9 @@ export class CursosService {
 
   async listar() {
     return await this.cursosRepository.listarTodos();
+  }
+
+  async matricular(aluno: Aluno, curso: Curso) {
+    return await this.cursosRepository.matricularAluno(aluno, curso);
   }
 }

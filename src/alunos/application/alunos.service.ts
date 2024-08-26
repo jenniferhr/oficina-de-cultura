@@ -41,11 +41,7 @@ export class AlunosService {
   }
 
   async matricular(tituloDoCurso: string, emailDoAluno: string) {
-    // verifica se aluno e curso ja existem ou nao
-    // verifica se o aluno ja esta matriculado no curso ou nao
-    // atualizar aluno, adicionando o curso no array cursos (id né?)
-    // atualizar curso, adicionando o aluno no array alunos (id?)
-    // retorna o objeto curso
+    console.log(this.cursosService);
     const aluno = await this.buscarPorEmail(emailDoAluno);
 
     if (!aluno) {
@@ -53,12 +49,12 @@ export class AlunosService {
     }
 
     const curso = await this.cursosService.buscarPorTitulo(tituloDoCurso);
-    console.log(curso);
 
     if (!curso) {
       throw new NotFoundException('Um curso com esse nome não foi encontrado');
     }
 
+    await this.cursosService.matricular(aluno, curso);
     return await this.alunosRepository.matricularEmCurso(aluno, curso);
   }
 }
