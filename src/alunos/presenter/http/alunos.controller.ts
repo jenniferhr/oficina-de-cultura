@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AlunosService } from '../../application/alunos.service';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { CreateAlunoCommand } from '../../application/commands/create-aluno-command';
+import { MatriculaEmCursoDto } from './dto/matricula-em-curso.dto';
 
 @Controller('alunos')
 export class AlunosController {
@@ -23,5 +24,13 @@ export class AlunosController {
   @Get()
   listar() {
     return this.alunosService.listar();
+  }
+
+  @Post('matricular')
+  matricular(@Body() matriculaEmCursoDto: MatriculaEmCursoDto) {
+    return this.alunosService.matricular(
+      matriculaEmCursoDto.tituloDoCurso,
+      matriculaEmCursoDto.emailDoAluno,
+    );
   }
 }

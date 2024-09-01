@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AlunoEntity } from '../entities/aluno.entity';
 import { Aluno } from '../../../../domain/aluno';
 import { AlunosRepository } from 'src/alunos/application/ports/alunos.repository';
+import { Curso } from 'src/cursos/domain/curso';
 // import { AlunoMapper } from '../mappers/aluno.mapper';
 
 @Injectable()
@@ -17,6 +18,11 @@ export class InFileAlunosRepository implements AlunosRepository {
   buscarPorEmail(email: string): Promise<Aluno> {
     throw new Error('Method not implemented.');
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  matricularEmCurso(aluno: Aluno, curso: Curso): Promise<Aluno> {
+    throw new Error('Method not implemented.');
+  }
+
   private readonly alunos = new Map<string, AlunoEntity>();
 }
 

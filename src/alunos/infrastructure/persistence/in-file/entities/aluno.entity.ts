@@ -1,10 +1,12 @@
+import { Curso } from 'src/cursos/domain/curso';
+
 export class AlunoEntity {
   id: string;
   nome: string;
   endereco: string;
   email: string;
   telefone: string;
-  cursos: string[];
+  cursos: Curso[];
 }
 
 // Aqui no in-memory a entidade nao precisa de decoradores, pois nao estamos utilizando um banco de dados ainda.

@@ -5,6 +5,8 @@ import { AlunosModule } from './alunos/application/alunos.module';
 import { CoreModule } from './alunos/core/core.module';
 import { ApplicationBootstrapOptions } from './alunos/common/interfaces/application-bootstrap-options.interface';
 import { AlunoInfrastructureModule } from './alunos/infrastructure/aluno-infrastructure.module';
+import { CursosModule } from './cursos/application/cursos.module';
+import { CursoInfrastructureModule } from './cursos/infrastructure/curso-infrastructure.module';
 
 @Module({
   imports: [CoreModule],
@@ -19,6 +21,9 @@ export class AppModule {
         CoreModule.forRoot(options), // Aqui entram as opções de configuração do banco de dados
         AlunosModule.comInfraestrutura(
           AlunoInfrastructureModule.use(options.driver),
+        ),
+        CursosModule.comInfraestrutura(
+          CursoInfrastructureModule.use(options.driver),
         ),
       ],
     };
